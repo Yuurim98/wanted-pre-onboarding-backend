@@ -1,4 +1,4 @@
-package com.example.wanted_pre_onboarding_backend;
+package com.example.wantedonboarding;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

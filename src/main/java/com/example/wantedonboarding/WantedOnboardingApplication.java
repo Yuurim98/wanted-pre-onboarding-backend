@@ -1,13 +1,13 @@
-package com.example.wanted_pre_onboarding_backend;
+package com.example.wantedonboarding;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WantedPreOnboardingBackendApplication {
+public class WantedOnboardingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WantedPreOnboardingBackendApplication.class, args);
+		SpringApplication.run(WantedOnboardingApplication.class, args);
 	}
 
 }
