@@ -1,14 +1,14 @@
 package com.example.wantedonboarding.jobopenings.controller;
 
 import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
-import com.example.wantedonboarding.members.service.JobOpeningsService;
+import com.example.wantedonboarding.jobopenings.service.JobOpeningsService;
+import jakarta.validation.Valid;
+import org.hibernate.validator.internal.engine.valueextraction.ArrayElement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("job-opening")
 @RestController
 public class JobOpeningsController {
 
@@ -20,8 +20,15 @@ public class JobOpeningsController {
     }
 
 
-//    @PostMapping("post-job")
-//    public ResponseEntity<?> PostJob(@RequestBody JobOpeningsDto dto) {
-//
-//    }
+    @PostMapping("post")
+    public ResponseEntity<?> PostJob(@Valid @RequestBody JobOpeningsDto dto) {
+        //DTO를 서비스에 전달하여 처리
+        JobOpeningsDto createdDto = openingsService.createJobOpening(dto);
+        return ResponseEntity.ok(createdDto);
+    }
+
+    @GetMapping("hi")
+    public String hi(){
+        return "hi";
+    }
 }

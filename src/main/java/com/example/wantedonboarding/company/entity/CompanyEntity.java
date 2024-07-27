@@ -1,10 +1,13 @@
 package com.example.wantedonboarding.company.entity;
 
+import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -22,5 +25,9 @@ public class CompanyEntity {
 
     @Column(nullable = false, name = "company_name") //null값 허용 금지 및 컬럼명 지정
     private String companyName;
+
+    //일대다 관계: 하나의 회사는 여러개의 채용 공고를 가질 수 있음
+    @OneToMany(mappedBy = "company")
+    private Set<JobOpeningsEntity> jobOpenings;
 
 }
