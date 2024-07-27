@@ -26,9 +26,5 @@ public class JobOpeningsController {
         JobOpeningsDto createdDto = openingsService.createJobOpening(dto);
         return ResponseEntity.ok(createdDto);
     }
-
-    @GetMapping("hi")
-    public String hi(){
-        return "hi";
-    }
+    
 }
