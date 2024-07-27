@@ -6,7 +6,9 @@ import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import com.example.wantedonboarding.jobopenings.repository.JobOpeningsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class JobOpeningsService {
@@ -44,6 +46,25 @@ public class JobOpeningsService {
                 saveEntity.getOpeningContents(),
                 saveEntity.getSkill(),
                 saveEntity.getPosition());
+    }
+
+
+
+
+    @Transactional
+    public void deleteJobOpening(Long openingId) {
+        //공고 존재 여부 검증
+        if (!jobOpeningsRepository.existsById(openingId)) { //existsById의 반환값이 false면 DB에 존재X
+            throw new RuntimeException("공고가 존재하지 않습니다");
+        }
+
+        //공고 삭제
+        jobOpeningsRepository.deleteById(openingId);
+
+        //공고 삭제 여부 검증
+        if (jobOpeningsRepository.existsById(openingId)) { //existsById의 반환값이 true면 DB에 존재O
+            throw new RuntimeException("공고 삭제에 실패했습니다");
+        }
     }
 
 }

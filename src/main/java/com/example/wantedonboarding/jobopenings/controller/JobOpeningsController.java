@@ -26,5 +26,13 @@ public class JobOpeningsController {
         JobOpeningsDto createdDto = openingsService.createJobOpening(dto);
         return ResponseEntity.ok(createdDto);
     }
-    
+
+
+
+
+    @DeleteMapping("delete/{openingId}")
+    public ResponseEntity<String > deleteJobOpening(@PathVariable Long openingId) {
+        openingsService.deleteJobOpening(openingId);
+        return ResponseEntity.ok("채용 공고가 삭제되었습니다");
+    }
 }
