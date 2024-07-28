@@ -53,8 +53,7 @@ public class JobOpeningsService {
                 saveEntity.getSkill(),
                 saveEntity.getPosition());
     }
-
-<<<<<<< HEAD
+    
     /* 채용공고 수정
     *  updateDto가 null이 아닌 경우에만 jobOpeningsEntity를 set
     * */
