@@ -28,10 +28,17 @@ public class JobOpeningsController {
         return ResponseEntity.ok(createdDto);
     }
 
+
     @PatchMapping("update/{openingId}")
     public ResponseEntity<?> Update(@PathVariable Long openingId, @RequestBody JobOpeningUpdateDto updateDto) {
         JobOpeningsDto JobOpeningUpdateDto = openingsService.updateJobOpening(openingId, updateDto);
         return ResponseEntity.ok(JobOpeningUpdateDto);
+    }
+
+    @DeleteMapping("delete/{openingId}")
+    public ResponseEntity<String > deleteJobOpening(@PathVariable Long openingId) {
+        openingsService.deleteJobOpening(openingId);
+        return ResponseEntity.ok("채용 공고가 삭제되었습니다");
     }
 
 }
