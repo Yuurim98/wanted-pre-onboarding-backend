@@ -6,7 +6,11 @@ import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import com.example.wantedonboarding.jobopenings.repository.JobOpeningsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JobOpeningsService {
@@ -46,4 +50,22 @@ public class JobOpeningsService {
                 saveEntity.getPosition());
     }
 
+
+    public List<JobOpeningsDto> getAllJobOpeningList() {
+        List<JobOpeningsEntity> jobOpenings = jobOpeningsRepository.findAll(Sort.by(Sort.Direction.DESC, "openingId"));
+        return jobOpenings.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private JobOpeningsDto convertToDto(JobOpeningsEntity jobOpeningsEntity) {
+        JobOpeningsDto dto = new JobOpeningsDto();
+        dto.setOpeningId(jobOpeningsEntity.getOpeningId());
+        dto.setCompanyId(jobOpeningsEntity.getCompany().getCompanyId());
+        dto.setOpeningTitle(jobOpeningsEntity.getOpeningTitle());
+        dto.setOpeningContents(jobOpeningsEntity.getOpeningTitle());
+        dto.setSkill(jobOpeningsEntity.getSkill());
+        dto.setPosition(jobOpeningsEntity.getPosition());
+        return dto;
+    }
 }
