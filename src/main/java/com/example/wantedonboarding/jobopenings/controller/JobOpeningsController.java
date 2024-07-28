@@ -45,11 +45,17 @@ public class JobOpeningsController {
 
     @GetMapping("list")
     public ResponseEntity<List<JobOpeningsDto>> jobOpeningList() {
-        List<JobOpeningsDto> jobOpeningList =openingsService.getAllJobOpeningList();
+        List<JobOpeningsDto> jobOpeningList = openingsService.getAllJobOpeningList();
         if (jobOpeningList.isEmpty()) {
             return ResponseEntity.noContent().build(); //리스트가 비어있을 때
         }
         return ResponseEntity.ok(jobOpeningList);
+    }
+
+    @GetMapping("posting-detail/{openingId}")
+    public ResponseEntity<JobOpeningsDto> JobPostingDetailPage(@PathVariable Long openingId) {
+        JobOpeningsDto jobOpeningsDto = openingsService.getDetailPage(openingId);
+        return ResponseEntity.ok(jobOpeningsDto);
     }
 
 }

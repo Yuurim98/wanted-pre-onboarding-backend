@@ -46,6 +46,7 @@ public class JobOpeningsService {
         //db 저장
         JobOpeningsEntity saveEntity = jobOpeningsRepository.save(jobOpeningsEntity);
 
+        //dto 변환 후 반환
         return convertToDto(saveEntity);
     }
 
@@ -53,6 +54,7 @@ public class JobOpeningsService {
     *  updateDto가 null이 아닌 경우에만 jobOpeningsEntity를 set
     * */
     public JobOpeningsDto updateJobOpening(Long openingId, JobOpeningUpdateDto updateDto) {
+        //공고 검증
         JobOpeningsEntity jobOpeningsEntity = jobOpeningsRepository.findById(openingId)
                 .orElseThrow(() -> new RuntimeException("해당하는 공고가 없습니다"));
 
@@ -74,9 +76,13 @@ public class JobOpeningsService {
 
         JobOpeningsEntity updateEntity = jobOpeningsRepository.save(jobOpeningsEntity);
 
+        //dto 변환 후 반환
         return convertToDto(updateEntity);
     }
 
+    /* 채용공고 삭제
+     *  공고가 존재한다면 삭제를 진행
+     * */
     @Transactional
     public void deleteJobOpening(Long openingId) {
         //공고 존재 여부 검증
@@ -94,13 +100,29 @@ public class JobOpeningsService {
 
     }
 
+    /* 채용공고 목록
+     *  PK값을 기준으로 내림차순 정렬하여 조회
+     * */
     public List<JobOpeningsDto> getAllJobOpeningList() {
         List<JobOpeningsEntity> jobOpenings = jobOpeningsRepository.findAll(Sort.by(Sort.Direction.DESC, "openingId"));
-        return jobOpenings.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return jobOpenings.stream() //엔티티 리스트를 스트림으로 변환
+                .map(this::convertToDto) //각 요소들 dto로 변환
+                .collect(Collectors.toList()); //변환된 dto 리스트로 반환
     }
 
+    /* 채용공고 상세 페이지
+     */
+    public JobOpeningsDto getDetailPage(Long openingId) {
+        //공고 검증
+        JobOpeningsEntity jobOpeningsEntity = jobOpeningsRepository.findById(openingId)
+                .orElseThrow(() -> new RuntimeException("해당하는 공고가 없습니다"));
+
+        //dto 변환 후 반환
+        return convertToDto(jobOpeningsEntity);
+    }
+
+    /*엔티티 -> dto 변환 작업
+     */
     private JobOpeningsDto convertToDto(JobOpeningsEntity jobOpeningsEntity) {
         JobOpeningsDto dto = new JobOpeningsDto();
         dto.setOpeningId(jobOpeningsEntity.getOpeningId());
