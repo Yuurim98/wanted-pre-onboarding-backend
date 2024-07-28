@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("job-opening")
 @RestController
 public class JobOpeningsController {
@@ -39,6 +41,15 @@ public class JobOpeningsController {
     public ResponseEntity<String > deleteJobOpening(@PathVariable Long openingId) {
         openingsService.deleteJobOpening(openingId);
         return ResponseEntity.ok("채용 공고가 삭제되었습니다");
+    }
+
+    @GetMapping("list")
+    public ResponseEntity<List<JobOpeningsDto>> jobOpeningList() {
+        List<JobOpeningsDto> jobOpeningList =openingsService.getAllJobOpeningList();
+        if (jobOpeningList.isEmpty()) {
+            return ResponseEntity.noContent().build(); //리스트가 비어있을 때
+        }
+        return ResponseEntity.ok(jobOpeningList);
     }
 
 }

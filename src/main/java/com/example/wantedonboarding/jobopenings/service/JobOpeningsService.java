@@ -7,9 +7,12 @@ import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import com.example.wantedonboarding.jobopenings.repository.JobOpeningsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JobOpeningsService {
@@ -51,6 +54,7 @@ public class JobOpeningsService {
                 saveEntity.getPosition());
     }
 
+<<<<<<< HEAD
     /* 채용공고 수정
     *  updateDto가 null이 아닌 경우에만 jobOpeningsEntity를 set
     * */
@@ -98,6 +102,24 @@ public class JobOpeningsService {
             throw new RuntimeException("공고 삭제에 실패했습니다");
         }
 
+    }
+
+    public List<JobOpeningsDto> getAllJobOpeningList() {
+        List<JobOpeningsEntity> jobOpenings = jobOpeningsRepository.findAll(Sort.by(Sort.Direction.DESC, "openingId"));
+        return jobOpenings.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private JobOpeningsDto convertToDto(JobOpeningsEntity jobOpeningsEntity) {
+        JobOpeningsDto dto = new JobOpeningsDto();
+        dto.setOpeningId(jobOpeningsEntity.getOpeningId());
+        dto.setCompanyId(jobOpeningsEntity.getCompany().getCompanyId());
+        dto.setOpeningTitle(jobOpeningsEntity.getOpeningTitle());
+        dto.setOpeningContents(jobOpeningsEntity.getOpeningTitle());
+        dto.setSkill(jobOpeningsEntity.getSkill());
+        dto.setPosition(jobOpeningsEntity.getPosition());
+        return dto;
     }
 
 }
