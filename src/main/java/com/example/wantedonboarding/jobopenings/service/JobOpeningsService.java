@@ -46,14 +46,9 @@ public class JobOpeningsService {
         //db 저장
         JobOpeningsEntity saveEntity = jobOpeningsRepository.save(jobOpeningsEntity);
 
-        return new JobOpeningsDto(saveEntity.getOpeningId(),
-                saveEntity.getCompany().getCompanyId(),
-                saveEntity.getOpeningTitle(),
-                saveEntity.getOpeningContents(),
-                saveEntity.getSkill(),
-                saveEntity.getPosition());
+        return convertToDto(saveEntity);
     }
-    
+
     /* 채용공고 수정
     *  updateDto가 null이 아닌 경우에만 jobOpeningsEntity를 set
     * */
@@ -78,12 +73,8 @@ public class JobOpeningsService {
         }
 
         JobOpeningsEntity updateEntity = jobOpeningsRepository.save(jobOpeningsEntity);
-        return new JobOpeningsDto(updateEntity.getOpeningId(),
-                updateEntity.getCompany().getCompanyId(),
-                updateEntity.getOpeningTitle(),
-                updateEntity.getOpeningContents(),
-                updateEntity.getSkill(),
-                updateEntity.getPosition());
+
+        return convertToDto(updateEntity);
     }
 
     @Transactional
@@ -115,7 +106,7 @@ public class JobOpeningsService {
         dto.setOpeningId(jobOpeningsEntity.getOpeningId());
         dto.setCompanyId(jobOpeningsEntity.getCompany().getCompanyId());
         dto.setOpeningTitle(jobOpeningsEntity.getOpeningTitle());
-        dto.setOpeningContents(jobOpeningsEntity.getOpeningTitle());
+        dto.setOpeningContents(jobOpeningsEntity.getOpeningContents());
         dto.setSkill(jobOpeningsEntity.getSkill());
         dto.setPosition(jobOpeningsEntity.getPosition());
         return dto;
