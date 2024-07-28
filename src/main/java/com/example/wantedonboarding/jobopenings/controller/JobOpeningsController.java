@@ -1,5 +1,6 @@
 package com.example.wantedonboarding.jobopenings.controller;
 
+import com.example.wantedonboarding.jobopenings.dto.JobOpeningUpdateDto;
 import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.service.JobOpeningsService;
 import jakarta.validation.Valid;
@@ -20,11 +21,17 @@ public class JobOpeningsController {
     }
 
 
-    @PostMapping("post")
+    @PostMapping("post") //공고 등록
     public ResponseEntity<?> PostJob(@Valid @RequestBody JobOpeningsDto dto) {
         //DTO를 서비스에 전달하여 처리
         JobOpeningsDto createdDto = openingsService.createJobOpening(dto);
         return ResponseEntity.ok(createdDto);
     }
-    
+
+    @PatchMapping("update/{openingId}")
+    public ResponseEntity<?> Update(@PathVariable Long openingId, @RequestBody JobOpeningUpdateDto updateDto) {
+        JobOpeningsDto JobOpeningUpdateDto = openingsService.updateJobOpening(openingId, updateDto);
+        return ResponseEntity.ok(JobOpeningUpdateDto);
+    }
+
 }

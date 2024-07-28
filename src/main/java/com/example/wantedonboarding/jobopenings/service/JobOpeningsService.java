@@ -2,6 +2,7 @@ package com.example.wantedonboarding.jobopenings.service;
 
 import com.example.wantedonboarding.company.entity.CompanyEntity;
 import com.example.wantedonboarding.company.repository.CompanyRepository;
+import com.example.wantedonboarding.jobopenings.dto.JobOpeningUpdateDto;
 import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import com.example.wantedonboarding.jobopenings.repository.JobOpeningsRepository;
@@ -20,7 +21,9 @@ public class JobOpeningsService {
         this.companyRepository = companyRepository;
     }
 
-    //넘겨받은 dto를 엔티티로 변환한 뒤 DB 저장 및 저장된 엔티티 dto 변환 후 다시 반환
+    /* 채용공고 등록
+    *  dto를 엔티티로 변환한 뒤 DB 저장 및 저장된 엔티티 dto 변환 후 다시 반환
+    * */
     public JobOpeningsDto createJobOpening(JobOpeningsDto dto) {
         JobOpeningsEntity jobOpeningsEntity = new JobOpeningsEntity();
 
@@ -44,6 +47,38 @@ public class JobOpeningsService {
                 saveEntity.getOpeningContents(),
                 saveEntity.getSkill(),
                 saveEntity.getPosition());
+    }
+
+    /* 채용공고 수정
+    *  updateDto가 null이 아닌 경우에만 jobOpeningsEntity를 set
+    * */
+    public JobOpeningsDto updateJobOpening(Long openingId, JobOpeningUpdateDto updateDto) {
+        JobOpeningsEntity jobOpeningsEntity = jobOpeningsRepository.findById(openingId)
+                .orElseThrow(() -> new RuntimeException("해당하는 공고가 없습니다"));
+
+        if (updateDto.getOpeningTitle() != null) {
+            jobOpeningsEntity.setOpeningTitle(updateDto.getOpeningTitle());
+        }
+
+        if (updateDto.getOpeningContents() != null) {
+            jobOpeningsEntity.setOpeningContents(updateDto.getOpeningContents());
+        }
+
+        if (updateDto.getSkill() != null) {
+            jobOpeningsEntity.setSkill(updateDto.getSkill());
+        }
+
+        if (updateDto.getPosition() != null) {
+            jobOpeningsEntity.setPosition(updateDto.getPosition());
+        }
+
+        JobOpeningsEntity updateEntity = jobOpeningsRepository.save(jobOpeningsEntity);
+        return new JobOpeningsDto(updateEntity.getOpeningId(),
+                updateEntity.getCompany().getCompanyId(),
+                updateEntity.getOpeningTitle(),
+                updateEntity.getOpeningContents(),
+                updateEntity.getSkill(),
+                updateEntity.getPosition());
     }
 
 }

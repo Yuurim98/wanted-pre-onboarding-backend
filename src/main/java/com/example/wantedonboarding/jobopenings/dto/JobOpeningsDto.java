@@ -1,5 +1,6 @@
 package com.example.wantedonboarding.jobopenings.dto;
 
+import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
