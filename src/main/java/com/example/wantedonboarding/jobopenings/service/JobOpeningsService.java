@@ -7,6 +7,9 @@ import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import com.example.wantedonboarding.jobopenings.repository.JobOpeningsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,12 +106,17 @@ public class JobOpeningsService {
 
     /* 채용공고 목록
      *  PK값을 기준으로 내림차순 정렬하여 조회
+     *  페이지 단위로 dto 반환
      * */
-    public List<JobOpeningsDto> getAllJobOpeningList() {
-        List<JobOpeningsEntity> jobOpenings = jobOpeningsRepository.findAll(Sort.by(Sort.Direction.DESC, "openingId"));
-        return jobOpenings.stream() //엔티티 리스트를 스트림으로 변환
-                .map(this::convertToDto) //각 요소들 dto로 변환
-                .collect(Collectors.toList()); //변환된 dto 리스트로 반환
+    public Page<JobOpeningsDto> getAllJobOpeningList(int page, int size) {
+        //페이지 번호, 항목 수, 정렬 기준으로 페이지 요청 생성
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "openingId"));
+
+        //목록 조회
+        Page<JobOpeningsEntity> jobOpeningsEntityPage = jobOpeningsRepository.findAll(pageable);
+
+        //dto 변환 후 페이지 단위로 반환
+        return jobOpeningsEntityPage.map(this::convertToDto);
     }
 
     /* 채용공고 상세 페이지
@@ -121,6 +129,7 @@ public class JobOpeningsService {
         //dto 변환 후 반환
         return convertToDto(jobOpeningsEntity);
     }
+
 
     /*엔티티 -> dto 변환 작업
      */
