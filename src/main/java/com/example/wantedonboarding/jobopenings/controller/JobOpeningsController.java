@@ -4,13 +4,10 @@ import com.example.wantedonboarding.jobopenings.dto.JobOpeningUpdateDto;
 import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.service.JobOpeningsService;
 import jakarta.validation.Valid;
-import org.hibernate.validator.internal.engine.valueextraction.ArrayElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("job-opening")
 @RestController
