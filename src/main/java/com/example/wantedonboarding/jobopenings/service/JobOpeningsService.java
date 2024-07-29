@@ -6,6 +6,9 @@ import com.example.wantedonboarding.jobopenings.dto.JobOpeningsDto;
 import com.example.wantedonboarding.jobopenings.entity.JobOpeningsEntity;
 import com.example.wantedonboarding.jobopenings.repository.JobOpeningsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -51,11 +54,11 @@ public class JobOpeningsService {
     }
 
 
-    public List<JobOpeningsDto> getAllJobOpeningList() {
-        List<JobOpeningsEntity> jobOpenings = jobOpeningsRepository.findAll(Sort.by(Sort.Direction.DESC, "openingId"));
-        return jobOpenings.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public Page<JobOpeningsDto> getAllJobOpeningList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "openingId"));
+        Page<JobOpeningsEntity> jobOpeningsEntityPage = jobOpeningsRepository.findAll(pageable);
+        //List<JobOpeningsEntity> jobOpenings = jobOpeningsRepository.findAll(Sort.by(Sort.Direction.DESC, "openingId"));
+        return jobOpeningsEntityPage.map(this::convertToDto);
     }
 
     private JobOpeningsDto convertToDto(JobOpeningsEntity jobOpeningsEntity) {
