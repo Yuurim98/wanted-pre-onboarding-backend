@@ -126,8 +126,18 @@ public class JobOpeningsService {
         JobOpeningsEntity jobOpeningsEntity = jobOpeningsRepository.findById(openingId)
                 .orElseThrow(() -> new RuntimeException("해당하는 공고가 없습니다"));
 
-        //dto 변환 후 반환
-        return convertToDto(jobOpeningsEntity);
+        //해당 회사의 다른 공고 여부 검증
+        List<Long> otherJobOpeningIds = jobOpeningsRepository.findByCompanyCompanyId(jobOpeningsEntity.getCompany().getCompanyId())
+                .stream()
+                .filter(je -> !je.getOpeningId().equals(openingId)) //현재 공고는 제외
+                .map(JobOpeningsEntity::getOpeningId)
+                .collect(Collectors.toList());
+
+        //dto로 변환 후 반환
+        JobOpeningsDto dto = convertToDto(jobOpeningsEntity);
+        dto.setOtherJobOpeningIds(otherJobOpeningIds); //다른 공고 id들 설정
+
+        return dto;
     }
 
 

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,5 +33,6 @@ public class JobOpeningsDto {
     @NotEmpty(message = "포지션을 입력하세요")
     private String position;
 
+    private List<Long> otherJobOpeningIds; //다른 채용 공고 Id를 저장할 필드
 
 }
