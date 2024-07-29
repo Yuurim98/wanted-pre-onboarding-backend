@@ -35,7 +35,7 @@ public class JobOpeningsController {
                                                                @RequestParam(defaultValue = "10") int size) {
         Page<JobOpeningsDto> jobOpeningList =openingsService.getAllJobOpeningList(page, size);
         if (jobOpeningList.isEmpty()) {
-            return ResponseEntity.noContent().build(); //리스트가 비어있을 때
+            return ResponseEntity.noContent().build(); //비어있을 때
         }
         return ResponseEntity.ok(jobOpeningList);
     }
