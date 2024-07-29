@@ -140,6 +140,29 @@ public class JobOpeningsService {
         return dto;
     }
 
+    /* 채용공고 검색 페이지
+     * searchType companyName과 skill에 따라 다른 결과를 반환
+     */
+    public Page<JobOpeningsDto> getSearchContent(int page, int size, String searchType, String search) {
+        Page<JobOpeningsEntity> jobOpeningsEntities;
+
+        //페이지 번호, 항목 수, 정렬 기준으로 페이지 요청 생성
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "openingId"));
+
+        //searchType에 따라 다른 메서드 호출
+        if ("companyName".equalsIgnoreCase(searchType)) {
+            //회사 이름으로 검색 로직
+            jobOpeningsEntities = jobOpeningsRepository.findByCompanyNameContainingIgnoreCase(search, pageable);
+        } else if ("skill".equalsIgnoreCase(searchType)) {
+            //사용 기술로 검색 로직
+            jobOpeningsEntities = jobOpeningsRepository.findBySkillContainingIgnoreCase(search, pageable);
+        } else {
+            throw new IllegalArgumentException("searchType이 올바르지 않습니다 : " + searchType); //예외처리
+        }
+
+        //검색 결과를 DTO로 변환하여 반환
+        return jobOpeningsEntities.map(this::convertToDto);
+    }
 
     /*엔티티 -> dto 변환 작업
      */

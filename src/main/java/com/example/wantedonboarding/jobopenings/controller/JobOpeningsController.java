@@ -25,7 +25,7 @@ public class JobOpeningsController {
 
 
     @PostMapping("post") //공고 등록
-    public ResponseEntity<?> PostJob(@Valid @RequestBody JobOpeningsDto dto) {
+    public ResponseEntity<?> postJob(@Valid @RequestBody JobOpeningsDto dto) {
         //DTO를 서비스에 전달하여 처리
         JobOpeningsDto createdDto = openingsService.createJobOpening(dto);
         return ResponseEntity.ok(createdDto);
@@ -33,7 +33,7 @@ public class JobOpeningsController {
 
 
     @PatchMapping("update/{openingId}")
-    public ResponseEntity<?> Update(@PathVariable Long openingId, @RequestBody JobOpeningUpdateDto updateDto) {
+    public ResponseEntity<?> update(@PathVariable Long openingId, @RequestBody JobOpeningUpdateDto updateDto) {
         JobOpeningsDto JobOpeningUpdateDto = openingsService.updateJobOpening(openingId, updateDto);
         return ResponseEntity.ok(JobOpeningUpdateDto);
     }
@@ -46,7 +46,7 @@ public class JobOpeningsController {
 
     @GetMapping("list")
     public ResponseEntity<Page<JobOpeningsDto>> jobOpeningList(@RequestParam(defaultValue = "0") int page,
-                                                               @RequestParam(defaultValue = "10") int size) {
+                                                               @RequestParam(defaultValue = "5") int size) {
         Page<JobOpeningsDto> jobOpeningList =openingsService.getAllJobOpeningList(page, size);
         if (jobOpeningList.isEmpty()) {
             return ResponseEntity.noContent().build(); //비어있을 때
@@ -55,9 +55,19 @@ public class JobOpeningsController {
     }
 
     @GetMapping("posting-detail/{openingId}")
-    public ResponseEntity<JobOpeningsDto> JobPostingDetailPage(@PathVariable Long openingId) {
+    public ResponseEntity<JobOpeningsDto> jobPostingDetailPage(@PathVariable Long openingId) {
         JobOpeningsDto jobOpeningsDto = openingsService.getDetailPage(openingId);
         return ResponseEntity.ok(jobOpeningsDto);
+    }
+
+    @GetMapping("search-jobOpening")
+    public ResponseEntity<Page<JobOpeningsDto>> searchJobOpening(@RequestParam(defaultValue = "companyName") String searchType,
+                                                           @RequestParam String search,
+                                                           @RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "10") int size) {
+
+        Page<JobOpeningsDto> result = openingsService.getSearchContent(page, size, searchType, search);
+        return ResponseEntity.ok(result);
     }
 
 }
