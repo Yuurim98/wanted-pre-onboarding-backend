@@ -25,6 +25,9 @@ public class JobOpeningsEntity {
     @JoinColumn(name = "company_id", nullable = false)
     private CompanyEntity company; //회사id
 
+    @Column(nullable = false, name = "company_name")
+    private String companyName;
+
     @Column(nullable = false, name = "opening_title") //null값 허용 금지 및 컬럼명 지정
     private String openingTitle; //공고 제목
 

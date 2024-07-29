@@ -17,6 +17,8 @@ public class JobOpeningsDto {
 
     private Long companyId;
 
+    private String companyName;
+
     @NotEmpty(message = "공고 제목을 입력하세요")
     private String openingTitle;
 

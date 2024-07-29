@@ -38,6 +38,7 @@ public class JobOpeningsService {
 
         //엔티티 set
         jobOpeningsEntity.setCompany(companyEntity);
+        jobOpeningsEntity.setCompanyName(companyEntity.getCompanyName());
         jobOpeningsEntity.setOpeningTitle(dto.getOpeningTitle());
         jobOpeningsEntity.setOpeningContents(dto.getOpeningContents());
         jobOpeningsEntity.setSkill(dto.getSkill());
@@ -127,6 +128,7 @@ public class JobOpeningsService {
         JobOpeningsDto dto = new JobOpeningsDto();
         dto.setOpeningId(jobOpeningsEntity.getOpeningId());
         dto.setCompanyId(jobOpeningsEntity.getCompany().getCompanyId());
+        dto.setCompanyName(jobOpeningsEntity.getCompanyName());
         dto.setOpeningTitle(jobOpeningsEntity.getOpeningTitle());
         dto.setOpeningContents(jobOpeningsEntity.getOpeningContents());
         dto.setSkill(jobOpeningsEntity.getSkill());
