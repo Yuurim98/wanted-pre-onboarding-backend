@@ -57,6 +57,7 @@ public class JobOpeningsController {
         return ResponseEntity.ok(jobOpeningsDto);
     }
 
+
     @GetMapping("search-jobOpening")
     public ResponseEntity<Page<JobOpeningsDto>> searchJobOpening(@RequestParam(defaultValue = "companyName") String searchType,
                                                            @RequestParam String search,
