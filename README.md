@@ -1,5 +1,6 @@
 # wanted onboarding
 
+## [API 명세] (https://github.com/Yuurim98/wanted-pre-onboarding-backend/wiki/REST-API)
 ## 요구사항
 1. 채용공고 등록
 2. 채용공고 수정
