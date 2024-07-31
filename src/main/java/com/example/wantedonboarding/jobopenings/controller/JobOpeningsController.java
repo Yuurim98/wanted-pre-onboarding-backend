@@ -62,7 +62,7 @@ public class JobOpeningsController {
     public ResponseEntity<Page<JobOpeningsDto>> searchJobOpening(@RequestParam(defaultValue = "companyName") String searchType,
                                                            @RequestParam String search,
                                                            @RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "10") int size) {
+                                                           @RequestParam(defaultValue = "5") int size) {
 
         Page<JobOpeningsDto> result = openingsService.getSearchContent(page, size, searchType, search);
         return ResponseEntity.ok(result);

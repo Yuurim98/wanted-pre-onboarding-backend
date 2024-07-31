@@ -33,7 +33,7 @@ public class ApplyService {
 
         //지원 여부 검증
         if (applyRepository.existsByJobOpeningAndMember(jobOpening, member)) {
-            throw new RuntimeException("이미 해당 채용 공고에 지원하였습니다.");
+            throw new IllegalArgumentException("이미 해당 채용 공고에 지원하였습니다.");
         }
 
 
